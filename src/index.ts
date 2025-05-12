@@ -1,12 +1,10 @@
 import Koa from 'koa';
-
+import leakyBucketMiddleware from './middlewares/leakyBucketMiddleware';
+import router from './router';
 const app = new Koa();
 
-// Middleware to respond with "Hello World"
-app.use(async (ctx) => {
-    ctx.body = 'Hello World';
-});
-
+app.use(leakyBucketMiddleware)
+app.use(router.routes()).use(router.allowedMethods());
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
