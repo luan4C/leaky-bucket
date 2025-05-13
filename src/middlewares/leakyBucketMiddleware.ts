@@ -1,9 +1,17 @@
 import Koa from 'koa';
-import bucketsHolder from '../models/bucketsHolder';
+import bucketsHolder from '../models/bucket/bucketsHolder';
+import authorizationMiddleware from './authorizationMiddleware';
+
 
 export default async function leakyBucketMiddleware(context: Koa.Context, next: Koa.Next) {
+    if(!context.state.userid) {
+        context.status = 401;
+        context.body = 'User ID not found in context state';
+        return;
+    }
+
     const holder  = bucketsHolder.getInstance()
-    const bucket = holder.get(context.ip);
+    const bucket = holder.get(context.state.userid);
     bucket?.leak();
     if (!bucket) {
         context.status = 500;

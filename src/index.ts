@@ -1,9 +1,11 @@
 import Koa from 'koa';
 import leakyBucketMiddleware from './middlewares/leakyBucketMiddleware';
 import router from './router';
+import json from 'koa-json';
 const app = new Koa();
 
-app.use(leakyBucketMiddleware)
+app.use(json());
+
 app.use(router.routes()).use(router.allowedMethods());
 // Start the server
 const PORT = 3000;
