@@ -7,26 +7,25 @@ export class LeakyBucket {
     constructor(capacity: number, leakRate: number) {
         this.capacity = capacity;
         this.leakRate = leakRate;
-        this.tokens = capacity;
+        this.tokens = 0;
         this.lastChecked = Date.now();
     }
 
-    public leak(): boolean {
-        if(this.tokens ==0)
-            return false;   
+    public leak(): void {    
         const now = Date.now();
-        const elapsed = (now - this.lastChecked) / 1000;
-        const leakedTokens = elapsed * this.leakRate;
+        const elapsed = (now - this.lastChecked) / 3600000; // Convert milliseconds to hours
+        
+        const leakedTokens = Math.floor(elapsed) * this.leakRate;
 
-        this.tokens = Math.max(0, this.tokens - leakedTokens);
-        this.lastChecked = now;
-        return true;
+        this.tokens = Math.max(0, this.tokens - leakedTokens)
+        
+        this.lastChecked = now;    
     }
     public isFull(): boolean {
-        return this.tokens == 0;
+        return this.tokens >= this.capacity;
     }
-    public refill(): boolean {
-        if (this.tokens < this.capacity) {
+    public addToken(): boolean {
+        if (!this.isFull()) {
             this.tokens++;
             this.lastChecked = Date.now();
             return true; 

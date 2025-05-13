@@ -13,9 +13,9 @@ class BucketsHolder extends Map<string, LeakyBucket> {
         }
         return BucketsHolder.instance;
     }
-    public refillTokens(): void {
+    public leakBuckets(): void {
         for (const bucket of this.values()) {
-           bucket.refill();
+           bucket.leak();
         }
     }
     override get(key: string): LeakyBucket | undefined {

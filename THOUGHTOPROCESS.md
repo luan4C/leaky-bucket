@@ -12,4 +12,7 @@
 - Idempotent 
 - Multi-Tenancy Stratey, request owner
 
-
+### Leaky Bucket Strategy for This challege
+- The bucket have the maximum capacity of 10 tokens.
+- The request adds 1 token. If Success it don't add the token, if it fails it fill the bucket with that one token.
+- Every one hour the bucket leaks 1 token.
