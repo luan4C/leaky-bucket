@@ -3,8 +3,8 @@ import authService from "../../services/AuthService";
 
 
 export const loginPost = async(ctx: Context) => { 
-    console.log(ctx.request)
-    const body = ctx.body as { username: string; password: string };
+    
+    const body = ctx.request.body as { username: string; password: string };
     
     if (!body.username || !body.password) {
         ctx.status = 400;

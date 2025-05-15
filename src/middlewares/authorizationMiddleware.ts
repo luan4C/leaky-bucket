@@ -1,4 +1,4 @@
-import {Context, Next} from 'koa';
+import { Context, Next } from 'koa';
 import { verifyToken } from '../utils/authUtils';
 
 export default async function authorizationMiddleware(context: Context, next: Next) { 
@@ -8,7 +8,11 @@ export default async function authorizationMiddleware(context: Context, next: Ne
         context.body = 'Authorization header missing';
         return;
     }
-
+    if(authHeader.split(' ')[0] !== 'Bearer'){
+        context.status = 401; // Unauthorized
+        context.body = 'Invalid Authorization header';    
+        return;
+    }
     const token = authHeader.split(' ')[1];
     if (!token) {
         context.status = 401; // Unauthorized

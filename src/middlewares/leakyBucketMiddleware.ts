@@ -1,6 +1,6 @@
 import Koa from 'koa';
 import bucketsHolder from '../models/bucket/bucketsHolder';
-import authorizationMiddleware from './authorizationMiddleware';
+
 
 
 export default async function leakyBucketMiddleware(context: Koa.Context, next: Koa.Next) {
@@ -20,7 +20,7 @@ export default async function leakyBucketMiddleware(context: Koa.Context, next: 
     }
 
     if (bucket.isFull()) {
-        context.status = 429; // Too Many Requests
+        context.status = 429; 
         context.body = 'Rate limit exceeded';
         return;
     }
@@ -30,6 +30,6 @@ export default async function leakyBucketMiddleware(context: Koa.Context, next: 
     if (context.response.status < 200 || context.response.status > 299) {
         bucket.addToken();
     }    
-    console.log('Bucket:', bucket);
+    console.log(`${context.state.userid} Bucket:`, bucket);
     
 }

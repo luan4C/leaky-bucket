@@ -1,8 +1,8 @@
 import Router from '@koa/router';
-import { loginPost } from './endpoints/auth/login';
-import leakyBucketMiddleware from './middlewares/leakyBucketMiddleware';
 import { Context } from 'koa';
+import { loginPost } from './endpoints/auth/login';
 import authorizationMiddleware from './middlewares/authorizationMiddleware';
+import leakyBucketMiddleware from './middlewares/leakyBucketMiddleware';
 
 const router = new Router();
 
